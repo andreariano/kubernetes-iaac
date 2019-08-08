@@ -48,7 +48,7 @@ SSHEOF
     control.vm.provision "ansible_local" do |ansible|
       # ansible.verbose = "vvvv"
       ansible.limit = "all"
-      ansible.playbook = "/home/vagrant/ansible/playbooks/k8smaster.yml"
+      ansible.playbook = "/home/vagrant/ansible/playbooks/cluster.yml"
       ansible.provisioning_path = "/home/vagrant/ansible/"
       ansible.inventory_path = "/home/vagrant/ansible/hosts"
       ansible.raw_arguments = ['--private-key=/home/vagrant/.ssh/id_ansible']

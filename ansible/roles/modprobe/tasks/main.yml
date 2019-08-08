@@ -1,3 +1,0 @@
----
-- name: modprobe
-  command: modprobe br_netfilter

@@ -8,8 +8,16 @@
   args:
     creates: /etc/yum.repos.d/docker-ce.repo
 
-- name: Installs docker
+- name: Install docker
   yum: 
     name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
     state: installed
-  notify: Start docker
+  register: docker_installed
+
+- name: Start docker
+  when: docker_installed is succeeded
+  systemd: 
+    name: docker 
+    state: restarted
+    daemon_reload: yes
+    enabled: yes

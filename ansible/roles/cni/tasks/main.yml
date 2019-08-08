@@ -1,0 +1,9 @@
+---
+- name: Enable flannel CNI
+  when: init_cluster is succeeded
+  become: false
+  shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  register: flannel
+  until: flannel.rc == 0
+  retries: 5
+  delay: 2

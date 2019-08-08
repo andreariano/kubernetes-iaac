@@ -1,11 +1,11 @@
 ---
-- import_playbook: docker.yml
-- import_playbook: swap.yml
-- import_playbook: selinux.yml
-- import_playbook: kubeadm.yml
-- import_playbook: modprobe.yml
-- import_playbook: netbridge.yml
-- import_playbook: sysctl.yml
+- hosts: master
+  gather_facts: yes
+  become: yes
+  roles:
+    - docker
+    - kubernetes/master
+    - cni
 
       # - name: Install docker dependencies
       #   become: yes
