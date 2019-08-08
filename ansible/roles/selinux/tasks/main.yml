@@ -1,0 +1,10 @@
+- name: Put SELinux in permissive mode.
+  selinux:
+    policy: targeted
+    state: permissive
+
+- name: Effectively disable SELinux
+  replace:
+    path: /etc/selinux/config
+    regexp: '^SELINUX=enforcing$'
+    replace: 'SELINUX=permissive'

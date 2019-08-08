@@ -1,6 +1,0 @@
----
-  - hosts: k8s-master
-    sudo: yes
-    tasks: 
-      - name: Disable SWAP
-        shell: swapoff -a
