@@ -14,6 +14,30 @@
     state: installed
   register: docker_installed
 
+- name: Create a directory if it does not exist
+  when: docker_installed is succeeded
+  file:
+    path: /etc/docker
+    state: directory
+    mode: '0755'
+
+- name: Setup docker daemon
+  when: docker_installed is succeeded
+  copy:
+    dest: "/etc/docker/daemon.json"
+    content: |
+      {
+        "exec-opts": ["native.cgroupdriver=systemd"],
+        "log-driver": "json-file",
+        "log-opts": {
+          "max-size": "100m"
+        },
+        "storage-driver": "overlay2",
+        "storage-opts": [
+          "overlay2.override_kernel_check=true"
+        ]
+      }
+
 - name: Start docker
   when: docker_installed is succeeded
   systemd: 

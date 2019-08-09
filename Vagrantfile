@@ -1,5 +1,5 @@
 CENTOS_IMAGE_NAME = "centos/7"
-NODES = 2
+NODES = 1
 
 Vagrant.configure("2") do |config|
   # Box Settings
@@ -32,6 +32,13 @@ SSHEOF
     master.vm.network "private_network", ip: "192.168.50.10"
   end
 
+  (1..NODES).each do |i|
+    config.vm.define "k8s-node-#{i}" do |node|
+      node.vm.hostname = "node-#{i}"
+      node.vm.network "private_network", ip: "192.168.50.#{i + 10}"
+    end
+  end
+
   config.vm.define "ansible" do |control|
     ## VM basic setup
     control.vm.hostname = "ansible"
@@ -54,20 +61,6 @@ SSHEOF
       ansible.raw_arguments = ['--private-key=/home/vagrant/.ssh/id_ansible']
     end
   end
-
-  # (1..NODES).each do |i|
-  #   config.vm.define "k8s-node-#{i}" do |node|
-  #       node.vm.box = CENTOS_IMAGE_NAME
-  #       # node.vm.network "private_network", ip: "192.168.50.#{i + 10}"
-  #       node.vm.hostname = "node-#{i}"
-  #       # node.vm.provision "ansible" do |ansible|
-  #       #     ansible.playbook = "kubernetes-setup/node-playbook.yml"
-  #       #     ansible.extra_vars = {
-  #       #         node_ip: "192.168.50.#{i + 10}",
-  #       #     }
-  #       # end
-  #   end
-  # end
 
   # Network Settings
   # config.vm.network "forwarded_port", guest: 80, host: 8080

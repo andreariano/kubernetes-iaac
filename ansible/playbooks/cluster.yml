@@ -7,6 +7,13 @@
     - kubernetes/master
     - cni
 
+- hosts: nodes
+  gather_facts: yes
+  become: yes
+  roles:
+    - docker
+    - kubernetes/node
+
       # - name: Install docker dependencies
       #   become: yes
       #   yum:
