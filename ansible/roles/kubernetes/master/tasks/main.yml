@@ -34,18 +34,20 @@
 - name: Yum repo Update
   shell: yum update -y
 
-- name: Install kubeadm packages
+- name: Install kubernetes packages
   yum:
-    name: ['kubeadm', 'kubelet'] 
-    state: present
+    name: "{{ item }}-{{ kubernetes_version | replace('v', '') }}"
+    update_cache: yes
+    state: installed
+  with_items: ['kubeadm', 'kubelet']
   register: kubeadm_pkg_installed
 
-# - name: Start kubelet
-#   when: kubeadm_pkg_installed
-#   systemd:
-#     state: started
-#     enabled: yes
-#     name: kubelet
+# - name: Install kubeadm packages
+#   yum:
+#     name: ['kubeadm', 'kubelet'] 
+#     state: present
+#   register: kubeadm_pkg_installed
+
 - name: Enable and check kubelet service
   when: kubeadm_pkg_installed
   systemd:
@@ -83,7 +85,9 @@
 
 - name: Init Kubernetes cluster
   when: reset_cluster is succeeded
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16
+  shell: kubeadm init \
+          --pod-network-cidr=10.244.0.0/16
+          --token={{ kubeadm_token }}
   register: init_cluster
 
 - name: Create Kubernetes config directory
