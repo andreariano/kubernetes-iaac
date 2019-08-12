@@ -3,13 +3,13 @@
   gather_facts: yes
   become: yes
   roles:
-    - docker
+    - cri/docker
     - kubernetes/master
-    - cni
+    - cni/calico
 
 - hosts: nodes
   gather_facts: yes
   become: yes
   roles:
-    - docker
+    - cri/docker
     - kubernetes/node

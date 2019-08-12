@@ -28,7 +28,7 @@ SSHEOF
 
   config.vm.define "k8s-master" do |master|
     # VM basic setup
-    master.vm.hostname = "k8s-master"
+    master.vm.hostname = "master"
     master.vm.network "private_network", ip: "192.168.50.10"
   end
 
@@ -51,9 +51,7 @@ SSHEOF
     control.vm.provision "file", source: "./ansible/", destination: "~/"
 
     # Execute ansible playbook
-    #control.vm.provision "shell", inline: "cd /home/vagrant/ansible && ansible-playbook --inventory-file=hosts -v master-playbook.yml --private-key=~/.ssh/id_ansible "
     control.vm.provision "ansible_local" do |ansible|
-      # ansible.verbose = "vvvv"
       ansible.limit = "all"
       ansible.playbook = "/home/vagrant/ansible/playbooks/cluster.yml"
       ansible.provisioning_path = "/home/vagrant/ansible/"
@@ -61,19 +59,4 @@ SSHEOF
       ansible.raw_arguments = ['--private-key=/home/vagrant/.ssh/id_ansible']
     end
   end
-
-  # Network Settings
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-  # config.vm.network "private_network", ip: "192.168.33.10"
-  # config.vm.network "public_network"
-  
-  # Folder Settings
-  # config.vm.synced_folder "../data", "/vagrant_data"
-  
-  # Provision Settings
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 end

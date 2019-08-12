@@ -1,3 +1,14 @@
-kubernetes_version: 1.15.0
-kubeadm_token: b0f7b8.8d1767876297d85c
+# Docker version to install
 docker_version: 18.09.1
+
+# Kubernetes version to install
+kubernetes_version: 1.15.0
+
+# Kubeadm init token
+kubeadm_token: b0f7b8.8d1767876297d85c
+
+# Kubeadm pod network cidr
+pod_network_cidr: 192.168.0.0/16
+
+# Master IP
+master_ip: "{{ hostvars[groups['master'][0]]['inventory_hostname'] }}"

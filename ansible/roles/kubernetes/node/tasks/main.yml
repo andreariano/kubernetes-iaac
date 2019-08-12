@@ -7,6 +7,6 @@
     enabled: yes
 
 - name: Join Kubernetes cluster
-  shell: kubeadm join 192.168.50.10:6443 \
+  shell: kubeadm join {{ master_ip }}:6443 \
           --token={{ kubeadm_token }} \
           --discovery-token-unsafe-skip-ca-verification
