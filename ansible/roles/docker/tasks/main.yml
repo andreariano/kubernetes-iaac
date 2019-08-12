@@ -10,7 +10,7 @@
 
 - name: Install docker
   yum: 
-    name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+    name: ['docker-ce-{{ docker_version }}', 'docker-ce-cli-{{ docker_version }}', 'containerd.io']
     state: installed
   register: docker_installed
 
