@@ -55,7 +55,7 @@ SSHEOF
       ansible.limit = "all"
       ansible.playbook = "/home/vagrant/ansible/playbooks/cluster.yml"
       ansible.provisioning_path = "/home/vagrant/ansible/"
-      ansible.inventory_path = "/home/vagrant/ansible/hosts"
+      ansible.inventory_path = "/home/vagrant/ansible/inventory/hosts"
       ansible.raw_arguments = ['--private-key=/home/vagrant/.ssh/id_ansible']
     end
   end
